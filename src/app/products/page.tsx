@@ -24,21 +24,21 @@ export default function ProductList() {
         if(tdata.length == 0) return;
 
         prlistTag = tdata.map((item: Product, idx) =>
-            <div className="relative mb-2 bg-white border-1 border-gray-500">
+            <div key={idx} className="relative mb-2 bg-white border-1 border-gray-500 p-3 box-border">
                 <Link href={`/products/${item.id}`}>
-                    <p key={idx}
+                    <p
                         className="text-2xl font-bold mb-2">
                         {item.name}
                     </p>
-                    <p key={idx}
-                        className="absolute right-3 top-3 inline-block rounded-3xl
+                    <p
+                        className="absolute right-3 top-3 inline-block rounded-3xl px-2
                                     bg-blue-900 text-white">
                         {item.category}
                     </p>
-                    <p key={idx}>
+                    <p>
                         {item.price}
                     </p>
-                    <p key={idx}>
+                    <p>
                         {item.description}
                     </p>
                 </Link>
@@ -51,9 +51,12 @@ export default function ProductList() {
     return (
         <div className="p-5 bg-gray-200">
             <div className="flex justify-between">
-                <p className="font-extrabold text-2xl">상품 목록</p>
+                <p className="font-extrabold text-2xl
+                                after:block after:w-full after:h-0.5
+                                after:bg-black after:mt-1
+                                ">상품 목록</p>
             </div>
-            <div className="mt-5">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-5">
                 {tag}
             </div>
         </div>

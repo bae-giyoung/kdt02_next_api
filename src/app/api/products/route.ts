@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(products);
 
     } catch (error) {
-        console.error("데이터를 읽는 중 오류 발생: ", error);
+        console.error("파일 불러오기 오류: ", error);
         return NextResponse.json({message: "서버 오류"}, {status: 500});
     }
 }

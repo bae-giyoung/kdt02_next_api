@@ -1,27 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
+import type { Product } from "@/types/product";
+
+// 파일을 r/w 하기 위한 모듈 추가
 import path from "path";
 import { promises as fs } from "fs";
-import type { Product } from "@/types/product";
-import productsJson from "@/data/product.json";
-
-// 동적 라우팅으로 들어오는 params의 데이터 타입
-interface ParamsProp {
-    params: {id: string}
-}
 
 // src/data/product.json 파일 경로 만들기
-const dataPath = path.join(process.cwd(), 'src/data/product.json');
+const dataPath = path.join(process.cwd(), 'src/data/product.json'); //process.cwd() => 현재 프로젝트의 절대 경로
 
 // 읽어오는 함수: src/data/product.json 파일 읽어오는 함수
 async function getProducts() : Promise<Product[]> {
     const jsonData = await fs.readFile(dataPath, 'utf-8');
     return JSON.parse(jsonData);
 }
-
-/* function getFromStaticJsonFile() : Product[] {
-    console.log(productsJson, productsJson instanceof Array);
-    return productsJson;
-} */
 
 // 저장하는 함수
 async function saveProducts(products: Product[]) {
@@ -30,7 +21,10 @@ async function saveProducts(products: Product[]) {
 
 
 // GET: (동적 라우팅) 데이터 가져오기
-export async function GET(request: NextRequest, {params} : ParamsProp) {
+export async function GET(
+    request: NextRequest, 
+    {params} : {params: Promise<{id: string}>} // 매우 중요! 타입을 interface로 뽑지 말고, 인라인으로 타입을 넣으라는 권고!
+) {
 
     try {
         // 요청한 데이터의 id 받아오기 (비동기 완료될 때까지 기다리기)
@@ -38,7 +32,6 @@ export async function GET(request: NextRequest, {params} : ParamsProp) {
 
         // 불러온 파일을 JSON 파싱을 통해 Product 배열로 만들기
         const products : Product[] = await getProducts();
-        //const products = getFromStaticJsonFile();
         const product = products.filter(item => item.id == id);
 
         if(!product.length)
@@ -54,7 +47,7 @@ export async function GET(request: NextRequest, {params} : ParamsProp) {
 
 
 // PUT: 함수
-export async function PUT(request: NextRequest, {params} : ParamsProp) {
+export async function PUT(request: NextRequest, {params} : {params: Promise<{id: string}>}) {
     try {
         // 요청한 데이터의 id 받아오기 (비동기 완료될 때까지 기다리기)
         const {id} = await params;
@@ -95,7 +88,7 @@ export async function PUT(request: NextRequest, {params} : ParamsProp) {
 
 
 // PATCH: 일부 데이터만 수정하는 함수
-export async function PATCH(request: NextRequest, {params} : ParamsProp) {
+export async function PATCH(request: NextRequest, {params} : {params: Promise<{id: string}>}) {
     try {
         const {id} = await params;
 
@@ -131,7 +124,7 @@ export async function PATCH(request: NextRequest, {params} : ParamsProp) {
 
 
 // DELETE: 함수
-export async function DELETE(request: NextRequest, {params} : ParamsProp) {
+export async function DELETE(request: NextRequest, {params} : {params: Promise<{id: string}>}) {
     try {
         const {id} = await params;
 
