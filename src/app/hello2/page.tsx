@@ -1,5 +1,7 @@
 'use client';
 import { useState, useEffect } from "react";
+//import { useSearchParams } from "next/navigation";
+//import { Suspense } from "react";
 
 type helloT = {
     msg: string
@@ -7,9 +9,13 @@ type helloT = {
 
 export default function Hello2Page () {
   const [tdata, setTdata] = useState<helloT[] | null>(null);
-
+  //const searchParams = useSearchParams();
+  //const msg = searchParams.get('msg');
+  //console.log(msg);
+  
   const getFetchData = async () => {
-    const resp = await fetch('http://localhost:3000/api/hello');
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const resp = await fetch(`${baseUrl}/api/hello`);
     const data = await resp.json();
     setTdata(data);
   }
