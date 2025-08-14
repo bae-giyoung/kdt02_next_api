@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import type { FoodData } from "@/types/fooddata"
 import Link from "next/link"
 
@@ -8,7 +9,7 @@ interface CardProps {
 export default function Card({foodItem}: CardProps) {
     return (
         <div className="">
-            <Link href={`/restorants/${foodItem.UC_SEQ}`}>
+            <Link href={`/restorants2/${foodItem.UC_SEQ}`}>
                 <div className="">
                     <img src={foodItem.MAIN_IMG_THUMB} />
                 </div>

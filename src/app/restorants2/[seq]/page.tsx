@@ -1,7 +1,6 @@
+export const dynamic = 'force-dynamic';
 import { getFoodData } from "../page";
 import Link from "next/link";
-
-export const dynamic = 'force-dynamic';
 
 export default async function ({params} : {params: Promise<{seq: number}>}) {
     const { seq } = await params;
@@ -27,7 +26,7 @@ export default async function ({params} : {params: Promise<{seq: number}>}) {
                     </div>
                 )
             }
-            <Link href='/restorants'>
+            <Link href='/restorants2'>
                 <div className="font-bold">
                     목록으로
                 </div>
