@@ -13,7 +13,7 @@ export default function ProductForm({product} : ProductFormProps) {
   const isEditMode = product != null; // 수정인지 입력인지 구분
   const actionUse =  isEditMode ? updateProductAction : createProductAction;
   const initState : FormStatus = {message: ''};
-  const [status, formAction] = useActionState(actionUse, initState);
+  const [_, formAction] = useActionState(actionUse, initState); // [status, formAction]
   
   return (
     <form className="mt-8 grid grid-cols-4 gap-2" action={formAction} >

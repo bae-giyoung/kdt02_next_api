@@ -2,19 +2,14 @@
 export const dynamic = 'force-dynamic';
 import Link from "next/link";
 import ProductForm from "../../ProductForm";
-import { Product } from "@/types/product";
-
-export async function getFetchData(id: string): Promise<Product[]> {
-    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products/${id}`;
-    const resp = await fetch(url, {cache: 'no-cache'});
-    if(!resp.ok) throw new Error('Fetch Error');
-    const data = await resp.json();
-    return data;
-}
+import { supabase } from "@/lib/supabase/client";
 
 export default async function ({params} : {params: Promise<{id:string}>}) {
     const { id } = await params;
-    const product: Product[] = await getFetchData(id);
+    const {data: product, error} = await supabase.from('products').select('*').eq('id', id);
+
+    if(error)
+        return <p>에러 발생</p>
 
     return (
         <div className='w-full p-5 bg-[#e8e8e8]'>
@@ -22,7 +17,7 @@ export default async function ({params} : {params: Promise<{id:string}>}) {
                 <h2 className="font-semibold text-2xl">
                     상품 수정 페이지
                 </h2>
-                <Link href='/products2'>
+                <Link href='/supaproducts'>
                 <div className="inline-block font-medium
                             after:block after:w-full after:h-[1px]
                         after:bg-black after:mt-1
@@ -32,7 +27,7 @@ export default async function ({params} : {params: Promise<{id:string}>}) {
                 </div>
                 </Link>
             </div>
-            <ProductForm product={product[0]} />
+            { product && <ProductForm product={product[0]} /> }
         </div>
     );
 }

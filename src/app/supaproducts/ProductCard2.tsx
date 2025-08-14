@@ -9,7 +9,7 @@ interface ProductCardProps {
 export default function ProductCard2 ({item} : ProductCardProps) {
     return (
         <div className="relative mb-2 bg-white border-1 border-gray-500 p-3 box-border">
-            <Link href={`/products2/${item.id}`}>
+            <Link href={`/supaproducts/${item.id}`}>
                 <p className="text-xl font-bold mb-2">
                     {item.name}
                 </p>

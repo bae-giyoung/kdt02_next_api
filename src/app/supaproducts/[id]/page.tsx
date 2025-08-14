@@ -4,20 +4,15 @@ import { Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
 import ProductDel from "../ProductDel";
-
-async function getFetchData(id: string): Promise<Product[]> {
-    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products/${id}`;
-    const resp = await fetch(url, {cache: 'no-cache'});
-    if(!resp.ok) throw new Error('Fetch Error');
-    const data = await resp.json();
-    return data;
-}
+import { supabase } from "@/lib/supabase/client";
 
 export default async function ProductDetail({params}: {params: Promise<{id:string}>}) {
-    const {id} = await params; // 서버 컴포넌트에서 사용하는 방법
-    const detailData: Product[] = await getFetchData(id);
-    
-    const dtTag: ReactNode = detailData.map(item =>
+    const {id} = await params;
+    const {data: detailData, error} = await supabase.from('products').select('*').eq('id', id);
+    let dtTag: ReactNode;
+
+    if(detailData) {
+        dtTag = detailData.map(item =>
                 <div key={item.id} className="flex flex-col justify-center items-center py-5">
                     <Image src={'/file.svg'} width={200} height={200} alt={`${item.name} 이미지 없음`} priority/> 
                     <ul className="mt-5">
@@ -28,6 +23,10 @@ export default async function ProductDetail({params}: {params: Promise<{id:strin
                     </ul>
                 </div>
             );
+    }
+
+    if(error)
+        return <p>해당 상품이 존재하지 않습니다.</p>
 
 
     return (
@@ -36,7 +35,7 @@ export default async function ProductDetail({params}: {params: Promise<{id:strin
             <h1 className="text-xl font-semibold">상품상세 정보</h1>
             {dtTag && dtTag}
             <div className="mt-5 flex gap-2">
-                <Link href={'/products2'}>
+                <Link href={'/supaproducts'}>
                     <div className="rounded-full border border-solid border-black/[.08] 
                     dark:border-white/[.145] transition-colors flex items-center 
                     justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] 
@@ -46,7 +45,7 @@ export default async function ProductDetail({params}: {params: Promise<{id:strin
                     </div>
                 </Link>
 
-                <Link href={`/products2/${id}/edit`}>
+                <Link href={`/supaproducts/${id}/edit`}>
                     <div className="rounded-full border border-solid border-black/[.08] 
                     dark:border-white/[.145] transition-colors flex items-center bg-[#8f8f8f] text-white
                     justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] 

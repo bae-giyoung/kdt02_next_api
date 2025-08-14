@@ -65,11 +65,8 @@ export async function PUT(request: NextRequest, {params} : {params: Promise<{id:
         // 수정할 자료
         const updateProduct = await request.json();
 
-        // 추가될 자료의 ID 생성
-        const newId = Date.now().toString();
-
         // 전체 자료에 해당 자료 수정
-        products[idx] = { id:newId, ...updateProduct }; // 같은 속성이 있으면 일어나는 일! -> 덮어씀
+        products[idx] = { id: id, ...updateProduct }; // 같은 속성이 있으면 일어나는 일! -> 덮어씀
 
         // 전체 자료 저장
         await saveProducts(products);

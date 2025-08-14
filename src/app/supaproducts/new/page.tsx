@@ -8,7 +8,7 @@ export default async function ProductNewPage() {
         <h2 className="font-semibold text-2xl">
           상품 추가 페이지
         </h2>
-        <Link href='/products2'>
+        <Link href='/supaproducts'>
           <div className="inline-block font-medium
                     after:block after:w-full after:h-[1px]
                   after:bg-black after:mt-1

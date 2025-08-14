@@ -4,22 +4,20 @@ import { Product } from "@/types/product";
 import { type ReactNode } from "react";
 import ProductCard2 from "./ProductCard2";
 import Link from "next/link";
-
-async function getData(): Promise<Product[]> {
-    const url = process.env.NEXT_PUBLIC_API_BASE_URL + "/api/products";
-    const resp = await fetch(url, {cache: 'no-store'});
-
-    if(!resp.ok) throw new Error('Fetch Error');
-
-    const data = await resp.json();
-    return data;
-}
+import { supabase } from "@/lib/supabase/client";
 
 export default async function ProductList2() {
-    const listData: Product[] = await getData();
-    const prlistTag: ReactNode[] = listData.map((item: Product) =>
-        <ProductCard2 key={item.id} item={item} />
-    );
+    const {data: listData, error} = await supabase.from('products').select('*');
+    let prlistTag: ReactNode[];
+    
+    if(listData) {
+        prlistTag = listData.map((item: Product) =>
+            <ProductCard2 key={item.id} item={item} />
+        );
+    }
+
+    if(error)
+        return <p>데이터가 존재하지 않습니다.</p>
 
     return (
         <div className="p-5">
@@ -33,7 +31,7 @@ export default async function ProductList2() {
                                 ">상품 목록
                 </p>
                 <div className="shrink-0 grid grid-cols-2">
-                    <Link href={'/products2/new'}>
+                    <Link href={'/supaproducts/new'}>
                         <div className="h-full flex items-center justify-center
                                         bg-black text-white px-3
                                         border-white border-2">

@@ -4,14 +4,14 @@
     "name": "에어맥스 270",
     "category": "shoes",
     "price": 129000,
-    "description": "(PATCH)편안한 착화감과 스타일을 동시에 갖춘 인기 티셔츠"
+    "description": "(수정함!)편안한 착화감과 스타일을 동시에 갖춘 인기 티셔츠"
   },
   {
     "id": "124",
     "name": "울트라부스트 22",
     "category": "shoes",
     "price": 149000,
-    "description": "에너지 반환을 극대화한 아디다스 프리미엄 러닝화"
+    "description": "수정했지 에너지 반환을 극대화한 아디다스 프리미엄 러닝화"
   },
   {
     "id": "202",
@@ -40,5 +40,26 @@
     "category": "clothes",
     "price": "129000",
     "description": "편안한 착화감과 스타일을 동시에 갖춘 인기 티셔츠"
+  },
+  {
+    "id": "1755055651448",
+    "name": "추가함",
+    "category": "shoes",
+    "price": 1234567,
+    "description": "추가함"
+  },
+  {
+    "id": "1755055684867",
+    "name": "추가함!!!!!",
+    "category": "clothes",
+    "price": 123456789,
+    "description": "추가함"
+  },
+  {
+    "id": "1755135623642",
+    "name": "테스트용",
+    "category": "테스트제품명",
+    "price": 129000,
+    "description": "테스트"
   }
 ]
